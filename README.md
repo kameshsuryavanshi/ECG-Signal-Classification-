@@ -1,5 +1,4 @@
 
-## README
 
 # ECG Signal Classification using CNN + BiLSTM and Attention Mechanism
 
@@ -42,11 +41,13 @@ graph TD
     B --> C[Preprocess Data]
     C --> D[Data Augmentation]
     D --> E[Split into Training and Testing Sets]
-    E --> F[Build Model]
-    F --> G[Train Model]
-    G --> H[Evaluate Model]
-    H --> I[Save Results]
-    I --> J[End]
+    E --> F[CNN Layer]
+    F --> G[BiLSTM Layer]
+    G --> H[Attention Mechanism]
+    H --> I[Train Model]
+    I --> J[Evaluate Model]
+    J --> K[Save Results]
+    K --> L[End]
 ```
 
 ## Installation
@@ -102,13 +103,10 @@ The model achieves a 90% accuracy rate in classifying ECG signals. Below are the
 | Precision  | 0.88  |
 | Recall     | 0.87  |
 
-Confusion Matrix:
-
-![Confusion Matrix](confusion_matrix.png)
 
 ## Contributors
 
-- [Your Name](https://github.com/yourusername)
+- [Kamesh Suryavanshi](https://github.com/kameshsuryavanshi)
 
 ## License
 
