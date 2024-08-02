@@ -1,18 +1,13 @@
 
-# ECG Signal Classification using CNN + BiLSTM and Attention Mechanism
+### Confusion Matrix
+To compute and plot the confusion matrix, you can use `sklearn.metrics.confusion_matrix` and `matplotlib` for visualization.
 
-This repository contains an implementation of a robust ECG signal classification system that integrates Convolutional Neural Networks (CNN) with Bidirectional Long Short-Term Memory (BiLSTM) and incorporates Attention Mechanisms. The model achieves a 90% accuracy rate in distinguishing between different ECG signal patterns, demonstrating its significant potential in healthcare applications.
+### Training and Validation Metrics
+To keep track of the training and validation loss and accuracy, you can store these metrics during the training process and plot them using `matplotlib`.
 
-## Table of Contents
-- [Project Overview](#project-overview)
-- [Data](#data)
-- [Model Architecture](#model-architecture)
-- [Implementation Details](#implementation-details)
-- [Results](#results)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+Here’s the updated code with the confusion matrix and training/validation metrics included:
+
+---
 
 ## Project Overview
 ECG signal classification is a critical task in healthcare for diagnosing various cardiac conditions. This project leverages deep learning techniques to classify ECG signals into different categories using a hybrid model combining CNN, BiLSTM, and Attention Mechanism.
@@ -73,15 +68,78 @@ class Trainer:
         self.optimizer = AdamW(self.net.parameters(), lr=lr)
         self.scheduler = CosineAnnealingLR(self.optimizer, T_max=num_epochs, eta_min=5e-6)
         self.dataloaders = {phase: get_dataloader(phase, batch_size) for phase in ['train', 'val']}
+        self.train_loss_history = []
+        self.val_loss_history = []
+        self.train_acc_history = []
+        self.val_acc_history = []
     
     def run(self):
         for epoch in range(self.num_epochs):
-            self._train_epoch('train')
-            with torch.no_grad():
-                val_loss = self._train_epoch('val')
-                self.scheduler.step()
-                if val_loss < self.best_loss:
-                    torch.save(self.net.state_dict(), f"best_model_epoc{epoch}.pth")
+            train_loss, train_acc = self._train_epoch('train')
+            val_loss, val_acc = self._train_epoch('val')
+            self.scheduler.step()
+            self.train_loss_history.append(train_loss)
+            self.val_loss_history.append(val_loss)
+            self.train_acc_history.append(train_acc)
+            self.val_acc_history.append(val_acc)
+            
+            if val_loss < self.best_loss:
+                self.best_loss = val_loss
+                torch.save(self.net.state_dict(), f"best_model_epoch{epoch}.pth")
+    
+    def _train_epoch(self, phase):
+        # Training logic
+        return loss, accuracy
+```
+
+### Plotting Metrics
+```python
+import matplotlib.pyplot as plt
+
+def plot_metrics(trainer):
+    epochs = range(1, len(trainer.train_loss_history) + 1)
+    
+    plt.figure(figsize=(12, 4))
+    
+    plt.subplot(1, 2, 1)
+    plt.plot(epochs, trainer.train_loss_history, 'bo-', label='Training Loss')
+    plt.plot(epochs, trainer.val_loss_history, 'ro-', label='Validation Loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.title('Training and Validation Loss')
+    plt.legend()
+    
+    plt.subplot(1, 2, 2)
+    plt.plot(epochs, trainer.train_acc_history, 'bo-', label='Training Accuracy')
+    plt.plot(epochs, trainer.val_acc_history, 'ro-', label='Validation Accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
+    plt.title('Training and Validation Accuracy')
+    plt.legend()
+    
+    plt.tight_layout()
+    plt.show()
+
+plot_metrics(trainer)
+```
+
+### Confusion Matrix
+```python
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+
+def plot_confusion_matrix(y_true, y_pred, classes):
+    cm = confusion_matrix(y_true, y_pred)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=classes)
+    disp.plot(cmap=plt.cm.Blues)
+    plt.title('Confusion Matrix')
+    plt.show()
+    
+# Example usage after model prediction
+y_true = [...]  # True labels
+y_pred = [...]  # Predicted labels
+classes = ['Class1', 'Class2', 'Class3', 'Class4', 'Class5']
+
+plot_confusion_matrix(y_true, y_pred, classes)
 ```
 
 ## Results
