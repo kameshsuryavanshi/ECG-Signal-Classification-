@@ -94,7 +94,7 @@ To run the project, follow these steps:
 
 ## Results
 
-The model achieves a 90% accuracy rate in classifying ECG signals. Below are the performance metrics:
+The model achieves a 96% accuracy rate in classifying ECG signals. Below are the performance metrics:
 
 | Metric     | Value |
 |------------|-------|
