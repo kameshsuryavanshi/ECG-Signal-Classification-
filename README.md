@@ -98,7 +98,7 @@ The model achieves a 90% accuracy rate in classifying ECG signals. Below are the
 
 | Metric     | Value |
 |------------|-------|
-| Accuracy   | 90%   |
+| Accuracy   | 96%   |
 | F1 Score   | 0.89  |
 | Precision  | 0.88  |
 | Recall     | 0.87  |
