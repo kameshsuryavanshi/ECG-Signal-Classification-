@@ -23,19 +23,11 @@ ECG (Electrocardiogram) signal classification is critical in diagnosing various 
 
 The dataset used includes both normal and abnormal ECG signals. The data is preprocessed and split into training and testing sets. Data augmentation techniques are applied to balance the classes.
 
-## Model Architecture
-
-The model consists of three main components:
-
-1. **CNN**: Extracts local features from the ECG signals.
-2. **BiLSTM**: Captures long-term dependencies and patterns in the signals.
-3. **Attention Mechanism**: Enhances the model's focus on the most relevant parts of the input signals.
-
-## Model Architecture
+## Model Architecture## Model Architecture
 
 The proposed model follows a hybrid architecture designed to extract both spatial and temporal features from ECG signals.
 
-![Architecture Diagram](/ECG Signal Classification Model.jpeg)
+![ECG Signal Classification Model Architecture](https://raw.githubusercontent.com/kameshsuryavanshi/ECG-Signal-Classification-/main/ECG%20Signal%20Classification%20Model.jpeg)
 
 ### Components:
 1. **Input Layer**: Takes the pre-processed and segmented ECG signal.
